@@ -15,7 +15,6 @@ const detailsEl = document.getElementById("details");
 const transcriptEl = document.getElementById("transcript");
 const dlTranscriptBtn = document.getElementById("dlTranscript");
 const dlSummaryBtn = document.getElementById("dlSummary");
-const bulletsEl = document.getElementById("bullets");
 
 
 let lastResult = null;
@@ -54,14 +53,7 @@ function showResult(data) {
   lastResult = data;
 
   summaryEl.textContent = data.summary_preview || "";
-
-  bulletsEl.innerHTML = "";
-  (data.bullet_points || []).forEach(b => {
-    const li = document.createElement("li");
-    li.textContent = b;
-    bulletsEl.appendChild(li);
-  });
-
+  transcriptEl.textContent = data.transcript_preview || "";
   detailsEl.textContent = JSON.stringify(data, null, 2);
 }
 

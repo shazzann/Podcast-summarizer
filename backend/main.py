@@ -50,22 +50,15 @@ async def upload_audio(file: UploadFile = File(...)):
 
     transcript_preview = Path(transcript_path).read_text(encoding="utf-8")[:2000]
 
-
     summary_path = summarize_transcript_file(transcript_path, SUMMARIES_DIR)
     summary_data = summarize_transcript_file(transcript_path, SUMMARIES_DIR)
-
 
     return {
         "message": "Upload successful",
         "file_id": file_id,
-
         "transcript_preview": Path(transcript_path).read_text(encoding="utf-8")[:2000],
-
         "summary_preview": summary_data["paragraph"][:800],
-        "bullet_points": summary_data["bullets"],
-
         "download_summary_url": f"/download/summary/{file_id}",
-        "download_bullets_url": f"/download/bullets/{file_id}",
     }
 
 
@@ -86,22 +79,17 @@ def summarize_from_url(payload: UrlRequest):
     transcript_preview = Path(transcript_path).read_text(encoding="utf-8")[:2000]
 
     # 3) summarize
-    summary_path = summarize_transcript_file(Path(transcript_path), SUMMARIES_DIR)
+    summary_data = summarize_transcript_file(Path(transcript_path), SUMMARIES_DIR)
 
     # Extract file_id from transcript filename (without .txt extension)
     file_id = Path(transcript_path).stem
 
     return {
-        "message": "Upload successful",
+        "message": "URL download, transcription & summary successful",
         "file_id": file_id,
-
         "transcript_preview": Path(transcript_path).read_text(encoding="utf-8")[:2000],
-
         "summary_preview": summary_data["paragraph"][:800],
-        "bullet_points": summary_data["bullets"],
-
         "download_summary_url": f"/download/summary/{file_id}",
-        "download_bullets_url": f"/download/bullets/{file_id}",
     }
 
     
@@ -114,10 +102,3 @@ def download_transcript(file_id: str):
 def download_summary(file_id: str):
     path = BASE_DIR / "data" / "summaries" / f"{file_id}_summary.txt"
     return FileResponse(path, media_type="text/plain", filename=f"{file_id}_summary.txt")
-
-@app.get("/download/bullets/{file_id}")
-def download_bullets(file_id: str):
-    path = BASE_DIR / "data" / "summaries" / f"{file_id}_bullets.txt"
-    if not path.exists():
-        raise HTTPException(status_code=404, detail="Bullets not found")
-    return FileResponse(path, media_type="text/plain", filename=f"{file_id}_bullets.txt")
