@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Podcast Summarizer</title>
+    <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h1>Podcast Summarizer</h1>
+
+        <div class="card">
+            <div class="row">
+                <label class="radio">
+                    <input type="radio" name="mode" value="upload" checked />
+                    Upload Audio
+                </label>
+                <label class="radio">
+                    <input type="radio" name="mode" value="url" />
+                    Use URL
+                </label>
+            </div>
+
+            <div id="uploadBox" class="box">
+                <label>Audio file</label>
+                <input id="audioFile" type="file" accept=".mp3,.wav,.m4a,.aac,.ogg,.flac" />
+                <small>Supported: mp3, wav, m4a, aac, ogg, flac</small>
+            </div>
+
+            <div id="urlBox" class="box hidden">
+                <label>Podcast URL</label>
+                <input id="audioUrl" type="text" placeholder="Paste direct mp3 / RSS / YouTube URL" />
+                <small>Spotify often won't work (no direct audio).</small>
+            </div>
+
+            <div class="row">
+                <label>Backend URL</label>
+                <input id="backendUrl" type="text" value="http://127.0.0.1:8000" />
+            </div>
+
+            <button id="runBtn">Summarize</button>
+
+            <div id="status" class="status"></div>
+            <div id="error" class="error"></div>
+        </div>
+
+        <div class="card">
+            <h2>Summary Preview</h2>
+            <pre id="summary" class="output"></pre>
+        </div>
+
+        <div class="card">
+            <h2>Details</h2>
+            <pre id="details" class="output"></pre>
+        </div>
+
+        <div class="card">
+            <h2>Transcript Preview</h2>
+            <pre id="transcript" class="output"></pre>
+        </div>
+
+
+
+        <div class="card">
+            <h2>Downloads</h2>
+            <div class="row">
+                <button id="dlTranscript">Download Transcript</button>
+                <button id="dlSummary">Download Summary</button>
+            </div>
+            <small>Downloads come from your backend.</small>
+        </div>
+
+        <!-- <div class="card">
+            <h2>Bullet Summary</h2>
+            <ul id="bullets"></ul>
+        </div> -->
+
+    </div>
+
+
+
+    <script src="./app.js"></script>
+</body>
+
+</html>
